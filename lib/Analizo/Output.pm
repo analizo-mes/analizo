@@ -55,6 +55,7 @@ sub flush {
 sub write_data {
 }
 
+<<<<<<< f76b7f8e5d84f8b32953b66defa5a1f3ea3f8e08
 # Load driver from commands
 sub load_driver {
   my ($self, $output_driver) = @_;
@@ -62,4 +63,6 @@ sub load_driver {
   return $output_driver->new;
 }
 
+=======
+>>>>>>> Create Output Module
 1;
