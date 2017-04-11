@@ -30,9 +30,10 @@ sub opt_spec {
     [ 'output|o=s',   'output file name' ],
     [ 'language=s',   'process only filenames matching known extensions for the <lang>> programming' ],
     [ 'exclude|x=s',  'exclude <dirs> (a colon-separated list of directories) from the analysis' ],
-    [ 'includedirs|I=s',  'include <dirs> (a colon-separated list of directories) with C/C++ header files', { default => '.' } ],
-    [ 'libdirs|L=s',  'include <dirs> (a colon-separated list of directories) with C/C++ static and dynamic libraries files', { default => '.' } ],
-    [ 'libs=s',  'include <dirs> (a colon-separated list of directories) with C/C++ linked libraries files', { default => '.' } ],
+    [ 'includedirs|I=s',  'include <dirs> (a colon-separated list of directories) with C/C++ header files' ],
+    [ 'libdirs|L=s',  'include <dirs> (a colon-separated list of directories) with C/C++ static and dynamic libraries files' ],
+    [ 'libs=s',  'include <dirs> (a colon-separated list of directories) with C/C++ linked libraries files' ],
+    [ 'format|f=s',    'specifies the output format', { default => 'json' } ],
   );
 }
 
@@ -51,6 +52,14 @@ sub validate {
     $self->usage_error("No such file or directory");
   }
 }
+
+sub output_driver {
+  my ($self, $format) = @_;
+  my %available_outputs = (
+    json  => 'Analizo::Output::JSON',
+  );
+  $available_outputs{$format};
+  }
 
 sub execute {
   my ($self, $opt, $args) = @_;
@@ -92,6 +101,7 @@ sub execute {
   $job->libs($opt->libs);
   $job->execute();
   my $metrics = $job->metrics;
+  my $output = Analizo::Output->load_driver($self->output_driver($opt->format));
   if ($opt->output) {
     open STDOUT, '>', $opt->output or die "$!\n";
   }
@@ -99,7 +109,7 @@ sub execute {
     print $metrics->report_global_metrics_only;
   }
   else {
-    print $metrics->report;
+    print $output->report($metrics->report);
   }
   close STDOUT;
 }
