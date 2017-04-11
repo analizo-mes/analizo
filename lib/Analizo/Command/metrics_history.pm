@@ -43,8 +43,8 @@ sub validate {
 sub output_driver {
   my ($self, $format) = @_;
   my %available_outputs = (
-    csv => 'Analizo::Batch::Output::CSV',
-    db  => 'Analizo::Batch::Output::DB',
+    csv => 'Analizo::Output::CSV',
+    db  => 'Analizo::Output::DB',
   );
   $available_outputs{$format};
 }
