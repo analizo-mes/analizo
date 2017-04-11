@@ -33,7 +33,7 @@ sub opt_spec {
     [ 'includedirs|I=s',  'include <dirs> (a colon-separated list of directories) with C/C++ header files' ],
     [ 'libdirs|L=s',  'include <dirs> (a colon-separated list of directories) with C/C++ static and dynamic libraries files' ],
     [ 'libs=s',  'include <dirs> (a colon-separated list of directories) with C/C++ linked libraries files' ],
-    [ 'format|f=s',    'specifies the output format', { default => 'yml' } ],
+    [ 'format|f=s',    'specifies the output format', { default => 'json' } ],
   );
 }
 
