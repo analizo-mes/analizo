@@ -1,4 +1,4 @@
-#This class represents the output engine for other analysis 
+#This class represents the output engine for other analysis
 #
 package Analizo::Output;
 
@@ -53,6 +53,13 @@ sub flush {
 # Must be overriden by subclasses. Will receive a FILEHANDLE, and must write
 # the data to it.
 sub write_data {
+}
+
+# Load driver from commands
+sub load_driver {
+  my ($self, $output_driver) = @_;
+  eval "require $output_driver";
+  return $output_driver->new;
 }
 
 1;
