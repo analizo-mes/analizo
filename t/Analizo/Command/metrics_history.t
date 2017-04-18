@@ -25,20 +25,14 @@ sub is_a_subclass_of_Analizo_Command : Tests {
 sub output_driver : Tests {
   my $analizo = Analizo->new;
   my ($cmd) = $analizo->prepare_command('metrics-history');
-  cmp_ok($cmd->output_driver('csv'), 'eq', 'Analizo::Batch::Output::CSV');
-  cmp_ok($cmd->output_driver('db'), 'eq', 'Analizo::Batch::Output::DB');
+  cmp_ok($cmd->output_driver('csv'), 'eq', 'Analizo::Output::CSV');
+  cmp_ok($cmd->output_driver('db'), 'eq', 'Analizo::Output::DB');
 }
 
 sub nil_for_unavaiable_output_driver : Tests {
   my $analizo = Analizo->new;
   my ($cmd) = $analizo->prepare_command('metrics-history');
   ok(! $cmd->output_driver('something'));
-}
-
-sub load_output_driver : Tests {
-  my $analizo = Analizo->new;
-  my ($cmd) = $analizo->prepare_command('metrics-history');
-  isa_ok($cmd->output_driver('csv'), 'Analizo::Batch::Output::CSV');
 }
 
 __PACKAGE__->runtests;
