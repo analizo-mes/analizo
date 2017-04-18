@@ -9,7 +9,7 @@ sub push {
 
 sub report {
   my ($self, @output) = @_;
-  return encode_json(@output);
+  return encode_json(\@output);
 }
 
 sub write_data {
