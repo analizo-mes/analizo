@@ -8,11 +8,11 @@ use t::Analizo::Test;
 use Analizo::Batch::Output;
 
 sub constructor : Tests {
-  isa_ok(__create(), 'Analizo::Batch::Output');
+  isa_ok(__create(), 'Analizo::Output');
 }
 
 sub exposed_interface : Tests {
-  can_ok('Analizo::Batch::Output', qw(requires_metrics push initialize flush));
+  can_ok('Analizo::Output', qw(requires_metrics push initialize flush));
 }
 
 sub not_require_metrics_by_default : Tests {
@@ -40,7 +40,7 @@ sub must_write_to_stdout_when_no_file_is_given : Tests {
 }
 
 sub __create {
-  new Analizo::Batch::Output;
+  new Analizo::Output;
 }
 
 __PACKAGE__->runtests;

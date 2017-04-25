@@ -4,6 +4,7 @@ use base qw(Test::Class);
 use Test::More;
 use Analizo::Metrics;
 use Analizo::Model;
+use Analizo::Output::YAML;
 
 use vars qw($model $metrics);
 
