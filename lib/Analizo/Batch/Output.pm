@@ -1,7 +1,7 @@
 # This class represents an possible output format for analizo operations.  It
 # has the responsibility to generate an output based on a series of jobs, and to inform
 #
-package Analizo::Batch::Output;
+package Analizo::Output;
 
 use strict;
 use warnings;

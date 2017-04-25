@@ -4,7 +4,7 @@ use base qw(Analizo::Command);
 use strict;
 use warnings;
 use Analizo::Batch::Directories;
-use Analizo::Batch::Output::CSV;
+use Analizo::Output::CSV;
 use File::Basename;
 
 # ABSTRACT: processes several source code directories in batch
@@ -57,7 +57,7 @@ sub execute {
     );
   }
   my $batch = new Analizo::Batch::Directories(@$args);
-  my $output = new Analizo::Batch::Output::CSV;
+  my $output = new Analizo::Output::CSV;
   $output->file($opt->output);
   $runner->run($batch, $output);
 }
