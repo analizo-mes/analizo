@@ -8,7 +8,7 @@ use t::Analizo::Test;
 use Analizo::Batch::Runner::Parallel;
 
 use Analizo::Batch::Runner::Sequential;
-use Analizo::Batch::Output;
+use Analizo::Output;
 use Analizo::Batch::Directories;
 
 sub constuctor : Tests {
@@ -26,8 +26,8 @@ sub number_of_parallel_processes : Tests {
 }
 
 sub should_be_equivalent_to_sequential_runner : Tests {
-  my $output_sequential = mock(new Analizo::Batch::Output);
-  my $output_parallel = mock(new Analizo::Batch::Output);
+  my $output_sequential = mock(new Analizo::Output);
+  my $output_parallel = mock(new Analizo::Output);
   my @jobs_sequential = ();
   $output_sequential->mock('push', sub { my ($that, $job) = @_; push @jobs_sequential, $job->id; });
   my @jobs_parallel = ();

@@ -8,7 +8,7 @@ use Test::More;
 use t::Analizo::Test;
 
 use Analizo::Batch::Runner;
-use Analizo::Batch::Output;
+use Analizo::Output;
 
 sub interface : Tests {
   can_ok('Analizo::Batch::Runner', 'run');
@@ -18,7 +18,7 @@ sub interface : Tests {
 sub interaction_with_output : Tests {
   my $runner = new Analizo::Batch::Runner;
   my $batch = {};
-  my $output = mock(new Analizo::Batch::Output);
+  my $output = mock(new Analizo::Output);
 
   my $initialized = 0;
   my $flushed = 0;

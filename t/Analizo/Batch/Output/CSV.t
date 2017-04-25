@@ -5,7 +5,7 @@ use parent qw(t::Analizo::Test::Class);
 use Test::More;
 use t::Analizo::Test;
 
-use Analizo::Batch::Output::CSV;
+use Analizo::Output::CSV;
 use Analizo::Batch::Job::Directories;
 
 my $TMPDIR = tmpdir();
@@ -21,7 +21,7 @@ sub teardown : Tests(teardown) {
 
 sub constructor : Tests {
   my $output = __create();
-  isa_ok($output, 'Analizo::Batch::Output::CSV');
+  isa_ok($output, 'Analizo::Output::CSV');
 }
 
 sub writing_data : Tests {
@@ -114,7 +114,7 @@ sub must_return_short_names_of_metrics : Tests {
 
 sub __create {
   my @args = @_;
-  my $output = mock(new Analizo::Batch::Output::CSV(@args));
+  my $output = mock(new Analizo::Output::CSV(@args));
   $output->mock('write_details', sub { });
   return $output;
 }
