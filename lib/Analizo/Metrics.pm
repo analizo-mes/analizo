@@ -38,7 +38,7 @@ sub list_of_metrics {
 
 sub report {
   my ($self) = @_;
-  return ($self->report_global_metrics_only() . $self->report_module_metrics());
+  return ($self->report_global_metrics_only() , $self->report_module_metrics());
 }
 
 sub report_global_metrics_only {
