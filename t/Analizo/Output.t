@@ -1,11 +1,11 @@
-package t::Analizo::Batch::Output;
+package t::Analizo::Output;
 use strict;
 use warnings;
 use parent qw(t::Analizo::Test::Class);
 use Test::More;
 use t::Analizo::Test;
 
-use Analizo::Batch::Output;
+use Analizo::Output;
 
 sub constructor : Tests {
   isa_ok(__create(), 'Analizo::Output');
