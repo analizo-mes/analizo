@@ -107,7 +107,7 @@ sub execute {
     open STDOUT, '>', $opt->output or die "$!\n";
   }
   if ($opt->globalonly) {
-    print $metrics->report_global_metrics_only;
+    print $output->report($metrics->report_global_metrics_only);
   }
   else {
     print $output->report($metrics->report);
