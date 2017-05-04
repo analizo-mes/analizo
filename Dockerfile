@@ -1,24 +1,17 @@
-# Use an official Python runtime as a base image
 FROM debian:stretch
 
-# Set the working directory to /app
-WORKDIR /analizo
+RUN useradd -ms /bin/bash analizo
 
-# Copy the current directory contents into the container at /app
-ADD . /analizo
+# Set the working directory to /app
+WORKDIR /home/analizo
+
+# Copy the current directory contents into the container at /home/analizo
+ADD . /home/analizo
 
 # Install any needed packages specified in requirements.txt
 RUN apt-get -y update && apt-get -y install sudo apt-utils && apt-get -y clean
 RUN ./development-setup.sh
 
+RUN chown -R analizo:analizo /home/analizo
 # Run tests
-RUN rake
-
-# Make port 80 available to the world outside this container
-#EXPOSE 80
-
-# Define environment variable
-#ENV NAME World
-
-# Run app.py when the container launches
-#CMD ["python", "app.py"]
+CMD sudo -u analizo rake
