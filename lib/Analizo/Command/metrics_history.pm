@@ -4,7 +4,7 @@ use base qw(Analizo::Command);
 use strict;
 use warnings;
 use Analizo::Batch::Git;
-
+use Analizo::Output;
 #ABSTRACT: processes a Git repository collection metrics
 
 =head1 NAME
@@ -43,17 +43,10 @@ sub validate {
 sub output_driver {
   my ($self, $format) = @_;
   my %available_outputs = (
-    csv => 'Analizo::Batch::Output::CSV',
-    db  => 'Analizo::Batch::Output::DB',
+    csv => 'Analizo::Output::CSV',
+    db  => 'Analizo::Output::DB',
   );
   $available_outputs{$format};
-}
-
-sub load_output_driver {
-  my ($self, $format) = @_;
-  my $output_driver = $self->output_driver($format);
-  eval "require $output_driver";
-  return $output_driver->new;
 }
 
 sub execute {
@@ -74,7 +67,7 @@ sub execute {
     my @excluded_directories = split(':', $opt->exclude);
     $batch->exclude(@excluded_directories);
   }
-  my $output = $self->load_output_driver($opt->format);
+  my $output = Analizo::Output->load_driver($self->output_driver($opt->format));
   if ($opt->output) {
     $output->file($opt->output);
   }

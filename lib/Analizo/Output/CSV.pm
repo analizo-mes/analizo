@@ -1,6 +1,6 @@
-package Analizo::Batch::Output::CSV;
+package Analizo::Output::CSV;
 
-use base qw( Analizo::Batch::Output );
+use base qw( Analizo::Output );
 use Analizo::Metrics;
 
 sub push {
@@ -68,7 +68,7 @@ sub _write_details {
 
   my $csv_filename = $id. "-details.csv";
   open my $csv_handler, '>'.$csv_filename  || die "Cannot open ".$id."-details.csv\n".$!;
-	
+
   print $csv_handler "filename".",module";
 
   foreach (@fields){

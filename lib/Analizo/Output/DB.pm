@@ -1,7 +1,7 @@
-package Analizo::Batch::Output::DB;
+package Analizo::Output::DB;
 use strict;
 use warnings;
-use base qw( Analizo::Batch::Output );
+use base qw( Analizo::Output );
 use DBI;
 use Digest::SHA qw(sha1_hex);
 

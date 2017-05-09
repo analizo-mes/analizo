@@ -1,7 +1,6 @@
-# This class represents an possible output format for analizo operations.  It
-# has the responsibility to generate an output based on a series of jobs, and to inform
+#This class represents the output engine for other analysis
 #
-package Analizo::Batch::Output;
+package Analizo::Output;
 
 use strict;
 use warnings;
@@ -9,8 +8,8 @@ use warnings;
 use base qw(Class::Accessor::Fast);
 
 sub new {
-  my ($class) = @_;
-  return bless {}, $class;
+	my ($class) = @_;
+	return bless {}, $class;
 }
 
 # This method must be overriden by subclasses, and must return 0 or 1 based on
@@ -54,6 +53,13 @@ sub flush {
 # Must be overriden by subclasses. Will receive a FILEHANDLE, and must write
 # the data to it.
 sub write_data {
+}
+
+# Load driver from commands
+sub load_driver {
+  my ($self, $output_driver) = @_;
+  eval "require $output_driver";
+  return $output_driver->new;
 }
 
 1;

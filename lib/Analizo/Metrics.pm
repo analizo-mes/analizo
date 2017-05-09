@@ -38,18 +38,18 @@ sub list_of_metrics {
 
 sub report {
   my ($self) = @_;
-  return $self->report_global_metrics_only() . $self->report_module_metrics();
+  return ($self->report_global_metrics_only() , $self->report_module_metrics());
 }
 
 sub report_global_metrics_only {
   my ($self) = @_;
   my ($global_metrics, $module_metrics) = $self->data();
-  return Dump($global_metrics);
+  return $global_metrics;
 }
 
 sub report_module_metrics {
   my ($self) = @_;
-  return join('', map { Dump($_) } @{$self->module_data()});
+  return map { $_ } @{$self->module_data()};
 }
 
 sub data {
@@ -96,4 +96,3 @@ sub metrics_for {
 }
 
 1;
-

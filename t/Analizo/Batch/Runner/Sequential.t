@@ -10,7 +10,7 @@ use t::Analizo::Test;
 use Analizo::Batch::Runner::Sequential;
 use Analizo::Batch;
 use Analizo::Batch::Job;
-use Analizo::Batch::Output;
+use Analizo::Output;
 
 sub constructor : Tests {
   my $obj = __create();
@@ -20,7 +20,7 @@ sub constructor : Tests {
 
 sub empty_batch_wont_crash : Tests {
   my $batch = new Analizo::Batch;
-  my $output = new Analizo::Batch::Output;
+  my $output = new Analizo::Output;
 
   my $runner = __create();
   $runner->run($batch, $output);
@@ -30,7 +30,7 @@ sub run : Tests {
   my $batch = mock(new Analizo::Batch);
   my $job1 = mock(new Analizo::Batch::Job);
   my $job2 = mock(new Analizo::Batch::Job);
-  my $output = mock(new Analizo::Batch::Output);
+  my $output = mock(new Analizo::Output);
 
   $batch->set_series('next', $job1, $job2, undef);
   my $job1_executed = 0;

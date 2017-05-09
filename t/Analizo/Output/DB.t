@@ -1,4 +1,4 @@
-package t::Analizo::Batch::Output::DB;
+package t::Analizo::Output::DB;
 use strict;
 use warnings;
 use base qw( Test::Class );
@@ -7,14 +7,14 @@ use t::Analizo::Test;
 my $TMPDIR = tmpdir();
 my $OUTFILE = $TMPDIR . '/out.sqlite3';
 
-use Analizo::Batch::Output::DB;
+use Analizo::Output::DB;
 use DBI;
 use Analizo::Batch::Job;
 use Analizo::Batch::Job::Directories;
 
 sub basics : Tests {
-  isa_ok(new Analizo::Batch::Output::DB, 'Analizo::Batch::Output');
-  isa_ok(new Analizo::Batch::Output::DB, 'Analizo::Batch::Output::DB');
+  isa_ok(new Analizo::Output::DB, 'Analizo::Output');
+  isa_ok(new Analizo::Output::DB, 'Analizo::Output::DB');
 }
 
 sub destination_database : Tests {
@@ -231,13 +231,13 @@ sub files_with_multiple_modules : Tests {
 }
 
 sub numeric_autoincrement_pk : Tests {
-  ok(Analizo::Batch::Output::DB::_numeric_autoinc_pk('dbi:SQLite:file.sqlite3') =~ /AUTOINCREMENT/);
-  ok(Analizo::Batch::Output::DB::_numeric_autoinc_pk('dbi:Pg:dbname=analizo') =~ /SERIAL/);
+  ok(Analizo::Output::DB::_numeric_autoinc_pk('dbi:SQLite:file.sqlite3') =~ /AUTOINCREMENT/);
+  ok(Analizo::Output::DB::_numeric_autoinc_pk('dbi:Pg:dbname=analizo') =~ /SERIAL/);
 }
 
 sub __create {
   my ($file) = @_;
-  my $output = new Analizo::Batch::Output::DB();
+  my $output = new Analizo::Output::DB();
   if ($file) {
     $output->file($file);
     $output->initialize();
