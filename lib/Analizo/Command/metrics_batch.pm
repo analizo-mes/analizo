@@ -5,6 +5,7 @@ use strict;
 use warnings;
 use Analizo::Batch::Directories;
 use Analizo::Output::CSV;
+use Analizo::Output::JSON;
 use File::Basename;
 
 # ABSTRACT: processes several source code directories in batch
@@ -25,9 +26,10 @@ sub command_names { qw/metrics-batch/ }
 
 sub opt_spec {
   return (
-    [ 'output|o=s',   'output file name', { default => 'metrics.csv' } ],
+    [ 'output|o=s',   'output file name', { default => 'metrics' } ],
     [ 'quiet|q',      'supresses messages to standard output' ],
     [ 'parallel|p=i', 'activates support for parallel processing' ],
+    [ 'format|f=s',   'specifies the output format', { default => 'csv' } ],
   );
 }
 
@@ -36,6 +38,15 @@ sub validate {
   if ($opt->output && ! -w dirname($opt->output)) {
     $self->usage_error("Output is not writable!");
   }
+}
+
+sub output_driver {
+  my ($self, $format) = @_;
+  my %available_outputs = (
+    json  => 'Analizo::Output::JSON',
+    csv => 'Analizo::Output::CSV',
+  );
+  $available_outputs{$format};
 }
 
 sub execute {
@@ -56,8 +67,9 @@ sub execute {
       }
     );
   }
+
   my $batch = new Analizo::Batch::Directories(@$args);
-  my $output = new Analizo::Output::CSV;
+  my $output = Analizo::Output::->load_driver($self->output_driver($opt->format));
   $output->file($opt->output);
   $runner->run($batch, $output);
 }
@@ -125,6 +137,13 @@ state.
 
 Write output to <file>. Default is to write to I<metrics.csv>. That file can
 then be opened in data analysis programs.
+
+=item --format <format>, -f <format>
+
+Write output in <format>. Default is to write in CSV, but json can be chosen too.
+When using json the default file is metrics.json and with csv is metrics.csv.
+When using csv the <folder>-details.csv is also created along with the main file.
+When using json the metcris.json has all information you need from the data analysis.
 
 =item --quiet, -q
 
