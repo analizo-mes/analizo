@@ -70,7 +70,7 @@ sub execute {
 
   my $batch = new Analizo::Batch::Directories(@$args);
   my $output = Analizo::Output::->load_driver($self->output_driver($opt->format));
-  $output->file($opt->output);
+  $output->file($opt->output. ".". $opt->format);
   $runner->run($batch, $output);
 }
 

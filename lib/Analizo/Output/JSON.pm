@@ -30,13 +30,14 @@ sub write_data {
     CORE::push @json, $json_context;
 
 		# Print on specific file
-		my $file_detail = $job->id. "-details.json";;
+		my $file_detail = $job->id. "-details.json";
 		my $json_details = to_json({$job->id => $details}, {utf8 => 1, pretty => 1, space_before => 0});
 		open my $fc, '>'.$file_detail  || die "Cannot open ".$job->id."-details.json\n".$!;
 		print $fc $json_details;
 		close ($fc);
 	}
-	my $line = join(', ', @json);
+	my $line = to_json({$job->metadata => decode_json(\@json)}, {utf8 => 1, pretty => 1, space_before => 0});
+	# my $line = join(', ', @json);
 	print {$fh} "[$line]";
 }
 
