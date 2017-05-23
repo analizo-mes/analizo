@@ -37,7 +37,6 @@ sub write_data {
 		close ($fc);
 	}
 	my $line = to_json({$job->metadata => decode_json(\@json)}, {utf8 => 1, pretty => 1, space_before => 0});
-	# my $line = join(', ', @json);
 	print {$fh} "[$line]";
 }
 

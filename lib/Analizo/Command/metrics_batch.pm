@@ -112,7 +112,7 @@ Then you change to that directory, and then run B<analizo metrics-batch>:
 =item
 
 B<analizo metrics-batch> will collect the metrics
-data in a single .csv file, that you can import in spreadsheet software or
+data in a single file, that you can import in spreadsheet software or
 statistical packages.
 
 =back
@@ -135,15 +135,17 @@ state.
 
 =item --output <file>, -o <file>
 
-Write output to <file>. Default is to write to I<metrics.csv>. That file can
-then be opened in data analysis programs.
+Write output to <file>. Default is to write to I<metrics.format>. That file can
+then be opened in data analysis programs. .f is defined with -f or --format but if it`s
+not defined the default is csv.
 
 =item --format <format>, -f <format>
 
 Write output in <format>. Default is to write in CSV, but json can be chosen too.
 When using json the default file is metrics.json and with csv is metrics.csv.
 When using csv the <folder>-details.csv is also created along with the main file.
-When using json the metcris.json has all information you need from the data analysis.
+When using json the metrics.json has all information you need from the data analysis
+but the <folder>-details.json is also created to specify the files and its metrics.
 
 =item --quiet, -q
 
