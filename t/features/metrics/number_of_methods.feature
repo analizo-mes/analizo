@@ -10,6 +10,7 @@ Feature: number of methods
     Examples:
       | sample   | language |  module    | nom  |
       | polygons | cpp      |  CPolygon  | 3    |
+      | polygons | python   |  Polygon   | 2    |
       | polygons | cpp      |  CTetragon | 2    |
       | polygons | java     |  Polygon   | 3    |
       | animals  | cpp      |  Animal    | 1    |

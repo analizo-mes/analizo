@@ -11,6 +11,7 @@ Feature: number of public methods metric
       | sample   | language |  module    | npm  |
       | polygons | cpp      |  CPolygon  | 2    |
       | polygons | cpp      |  CTetragon | 1    |
+      | polygons | python   |  Polygon   | 2    |
       | polygons | java     |  Polygon   | 3    |
       | animals  | cpp      |  Animal    | 1    |
       | animals  | cpp      |  Cat       | 2    |
