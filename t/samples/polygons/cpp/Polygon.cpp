@@ -1,4 +1,3 @@
-// abstract base class
 #include <iostream>
 using namespace std;
 
