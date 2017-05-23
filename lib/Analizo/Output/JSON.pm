@@ -16,23 +16,21 @@ sub report {
 }
 
 # This method encode the received data used in metrics-batch in json,
-# same as write_data in csv, but the json doesn`t need  to write the details of 
+# same as write_data in csv, but the json doesn`t need to write the details of 
 # which folder it`s analysing at the folder directory.
 
 sub write_data {
-  my ($self, $fh, $id) = @_;
+  my ($self, $fh) = @_;
   my @fields = ();
-  my @metadata_fields;
   my $file_name;
-
+  my @json = ();
   for my $job (@{$self->{jobs}}) {
     my ($summary, $details) = $job->metrics->data();
-    my $metadata = $job->metadata;
-    my $json_context = to_json($summary, {utf8 => 1, pretty => 1, space_before => 0});
-
-    my $line = join($file_name,$json_context). "\n";
-	print $fh $line;
-  }
+    my $json_context = to_json({$job->id => $summary}, {utf8 => 1, pretty => 1, space_before => 0});
+    CORE::push @json, $json_context;
+	}
+	my $line = join(', ', @json);
+	print {$fh} "[$line]";
 
 }
 
