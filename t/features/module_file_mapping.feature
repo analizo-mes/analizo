@@ -1,5 +1,5 @@
 Feature: mapping modules to filenames
-  As a software engineering resesearcher
+  As a software engineering researcher
   I want to know in which file each module is declared
   So that I can compare that with data from the VCS
 
@@ -17,6 +17,11 @@ Feature: mapping modules to filenames
   Scenario: Java
     When I run "analizo metrics t/samples/animals/java"
     Then analizo must report that module Animal has _filename = [Animal.java]
+
+  Scenario: Python
+    Given I am in t/samples/animals/python
+    When I run "analizo metrics ."
+    Then analizo must report that module Animal has _filename = [animal.py]
 
   Scenario: C
     Given I am in t/samples/hello_world/c

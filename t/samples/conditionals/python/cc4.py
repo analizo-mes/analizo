@@ -7,4 +7,4 @@ def cc4():
         print "don't know"
       else:
         print "me neither"
-      printf "nope"
+      print "nope"

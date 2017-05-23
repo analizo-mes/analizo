@@ -64,6 +64,7 @@ Feature: multi-language support
       | language |
       | cpp      |
       | java     |
+      | python   |
 
   # TODO doxyparse 1.8.11 doesn't detect dependencies between classes defined
   #      in same file, disabling this test for now in order to release a new analizo
@@ -88,4 +89,3 @@ Feature: multi-language support
     Then the output must match "_module: native_backend"
     And the output must match "_module: UI"
     And the output must match "_module: Backend"
-
