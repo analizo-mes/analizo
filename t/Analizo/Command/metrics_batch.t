@@ -26,7 +26,7 @@ sub output_driver : Tests {
   my $analizo = Analizo->new;
   my ($cmd) = $analizo->prepare_command('metrics-batch');
   cmp_ok($cmd->output_driver('csv'), 'eq', 'Analizo::Output::CSV');
-  cmp_ok($cmd->output_driver('db'), 'eq', 'Analizo::Output::JSON');
+  cmp_ok($cmd->output_driver('json'), 'eq', 'Analizo::Output::JSON');
 }
 
 sub nil_for_unavaiable_output_driver : Tests {
