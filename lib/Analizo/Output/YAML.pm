@@ -2,7 +2,6 @@ package Analizo::Output::YAML;
 use YAML;
 
 use base qw( Analizo::Output );
-use Analizo::Metrics;
 
 sub push {
 }

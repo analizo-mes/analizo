@@ -8,8 +8,8 @@ use warnings;
 use base qw(Class::Accessor::Fast);
 
 sub new {
-	my ($class) = @_;
-	return bless {}, $class;
+  my ($class) = @_;
+  return bless {}, $class;
 }
 
 # This method must be overriden by subclasses, and must return 0 or 1 based on

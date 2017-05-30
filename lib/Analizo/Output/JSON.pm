@@ -2,17 +2,16 @@ package Analizo::Output::JSON;
 use JSON;
 
 use base qw( Analizo::Output );
-use Analizo::Metrics;
 
 sub push {
-	my ($self, $job) = @_;
-  	$self->{jobs} ||= [];
-  	push @{$self->{jobs}}, $job;
+  my ($self, $job) = @_;
+    $self->{jobs} ||= [];
+    push @{$self->{jobs}}, $job;
 }
 
 sub report {
   my ($self, @output) = @_;
-  return encode_json(\@output);
+  return to_json((\@output), {utf8 => 1, pretty => 1, space_before => 0});
 }
 
 # This method encode the received data used in metrics-batch in json,

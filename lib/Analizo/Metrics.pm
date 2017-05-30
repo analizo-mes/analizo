@@ -49,7 +49,7 @@ sub report_global_metrics_only {
 
 sub report_module_metrics {
   my ($self) = @_;
-  return map { $_ } @{$self->module_data()};
+  return @{$self->module_data()};
 }
 
 sub data {
