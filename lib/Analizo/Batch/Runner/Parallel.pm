@@ -74,7 +74,13 @@ sub coordinate_workers {
   my $results = $context->socket(ZMQ_PULL);
   $results->bind(_socket_spec('results', $$));
 
-  # push jobs to queue
+  my $results_expected = enqueue_jobs($batch, $queue);
+  
+  collect_results($results_expected, $output, $results);
+}
+
+sub enqueue_jobs {
+  my ($batch, $queue) = @_;
   my $results_expected = 0;
   while (my $job = $batch->next()) {
     $queue->send(Dump($job));
@@ -82,8 +88,13 @@ sub coordinate_workers {
   }
   $queue->send(Dump({}));
 
-  # collect results
+  return $results_expected;
+}
+
+sub collect_results {
+  my ($results_expected, $output, $results) = @_;
   my $results_received = 0;
+
   while ($results_received < $results_expected) {
     my $msg = $results->recv();
     my $job = Load($msg);
