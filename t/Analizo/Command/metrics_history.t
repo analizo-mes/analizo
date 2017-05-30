@@ -27,6 +27,7 @@ sub output_driver : Tests {
   my ($cmd) = $analizo->prepare_command('metrics-history');
   cmp_ok($cmd->output_driver('csv'), 'eq', 'Analizo::Output::CSV');
   cmp_ok($cmd->output_driver('db'), 'eq', 'Analizo::Output::DB');
+  cmp_ok($cmd->output_driver('db'), 'eq', 'Analizo::Output::JSON');
 }
 
 sub nil_for_unavaiable_output_driver : Tests {
