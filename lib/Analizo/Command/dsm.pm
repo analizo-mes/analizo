@@ -34,16 +34,38 @@ sub opt_spec {
 
 sub validate {
   my ($self, $opt, $args) = @_;
+
   $self->usage_error("No input files!") unless @$args;
+
+  check_if_file_is_readable($self, $args);
+
+  check_if_output_is_writable($self, $opt);
+
+  check_if_output_format_is_valid($self, $opt);
+}
+
+sub check_if_file_is_readable {
+  my ($self, $args) = @_;
   my @unreadable = grep { ! -r $_ || ! -e $_ } @$args;
+
   if (@unreadable) {
     foreach my $file (@unreadable) {
       $self->usage_error("$file is not readable");
     }
   }
+}
+
+sub check_if_output_is_writable {
+  my ($self, $opt) = @_;
+
   if ($opt->output && ! -w dirname($opt->output)) {
     $self->usage_error("Output is not writable!");
   }
+}
+
+sub check_if_output_format_is_valid {
+  my ($self, $opt) = @_;
+
   if ($opt->format ne 'png' && $opt->format ne 'html') {
     $self->usage_error(sprintf("%s is not a valid output format.", $opt->format));
   }
