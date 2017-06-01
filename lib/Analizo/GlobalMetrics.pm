@@ -100,13 +100,10 @@ sub _add_metric_value_to_values_list {
 }
 
 sub report {
-
   my ($self) = @_;
-
   $self->_include_metrics_from_calculators;
   $self->_add_statistics;
   $self->_add_total_coupling_factor;
-
   return \%{$self->metric_report};
 }
 
@@ -179,4 +176,3 @@ sub _number_of_combinations {
 
 
 1;
-

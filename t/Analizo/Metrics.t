@@ -41,7 +41,7 @@ sub report : Tests {
   sample_modules_for_report();
   $model->declare_total_eloc(38);
 
-  my $output = Analizo::Output::YAML->report($metrics->report);
+  my $output = Analizo::Output::YAML->report($metrics->data);
 
   $output =~ m/total_modules: ([0-9]+)/;
   my $modules = $1;
@@ -54,7 +54,8 @@ sub report : Tests {
 sub report_global_only : Tests {
   sample_modules_for_report();
 
-  my $output = Analizo::Output::YAML->report($metrics->report_global_metrics_only);
+  my @global_metrics = $metrics->data;
+  my $output = Analizo::Output::YAML->report(@global_metrics[0]);
 
   ok($output =~ /total_modules: 2/, 'reporting number of classes (it is global)');
   ok($output !~ /_module: mod1/, 'not reporting module 1 details');
@@ -62,8 +63,7 @@ sub report_global_only : Tests {
 }
 
 sub report_without_modules_at_all : Tests {
-  # if this call does not crash we are fine
-  $metrics->report;
+  my $output = Analizo::Output::YAML->report($metrics->data);
 }
 
 sub list_of_metrics : Tests {

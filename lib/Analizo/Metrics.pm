@@ -36,22 +36,6 @@ sub list_of_metrics {
   return $self->module_metrics->list;
 }
 
-sub report {
-  my ($self) = @_;
-  return ($self->report_global_metrics_only() , $self->report_module_metrics());
-}
-
-sub report_global_metrics_only {
-  my ($self) = @_;
-  my ($global_metrics, $module_metrics) = $self->data();
-  return $global_metrics;
-}
-
-sub report_module_metrics {
-  my ($self) = @_;
-  return @{$self->module_data()};
-}
-
 sub data {
   my ($self) = @_;
   $self->_collect_and_combine_module_metrics;

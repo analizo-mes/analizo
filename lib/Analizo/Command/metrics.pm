@@ -122,10 +122,10 @@ sub execute {
     open STDOUT, '>', $opt->output or die "$!\n";
   }
   if ($opt->globalonly) {
-    print $output->report($metrics->report_global_metrics_only);
+    print $output->report($metrics->global_metrics->report);
   }
   else {
-    print $output->report($metrics->report);
+    print $output->report($metrics->data());
   }
   close STDOUT;
 }
