@@ -149,15 +149,11 @@ sub load_jobs {
   return @queue;
 }
 
-sub worker {
-  my ($parent_pid) = @_;
-  my $context = ZMQ::FFI->new();
-  my $source = $context->socket(ZMQ_REQ);
-  $source->connect(_socket_spec('job_source', $parent_pid));
-  my $results = $context->socket(ZMQ_PUSH);
-  $results->connect(_socket_spec('results', $parent_pid));
+sub process_jobs { 
+  my ($source, $results) = @_; 
   my $run = 1;
   my $last_job = undef;
+
   while ($run) {
     $source->send('');
     my $msg = $source->recv();
@@ -176,6 +172,18 @@ sub worker {
   if ($last_job) {
     $last_job->parallel_cleanup();
   }
+}
+
+sub worker {
+  my ($parent_pid) = @_;
+  my $context = ZMQ::FFI->new();
+  my $source = $context->socket(ZMQ_REQ);
+  $source->connect(_socket_spec('job_source', $parent_pid));
+
+  my $results = $context->socket(ZMQ_PUSH);
+  $results->connect(_socket_spec('results', $parent_pid));
+
+  process_jobs($source, $results);
 }
 
 1;
