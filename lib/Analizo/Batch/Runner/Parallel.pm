@@ -114,15 +114,15 @@ sub distributor {
   my $job_source = $context->socket(ZMQ_REP);
   $job_source->bind(_socket_spec('job_source', $parent_pid));
 
-  my @queue;
-  my $job;
-  while(1) {
-    my $msg = $queue->recv();
-    $job = Load($msg);
-    last if !exists($job->{id});
-    push(@queue, $job);
-  }
+  my @queue = load_jobs($queue);
 
+  finish_workers($number_of_workers, $job_source, @queue);
+ 
+}
+
+sub finish_workers {
+  my ($number_of_workers, $job_source, @queue) = @_;
+  my $job;
   my $workers_finished = 0;
   while ($workers_finished < $number_of_workers) {
     $job_source->recv();
@@ -134,6 +134,19 @@ sub distributor {
       $workers_finished++;
     }
   }
+}
+
+sub load_jobs {
+  my ($queue) = @_;
+  my @queue;
+  my $job;
+  while(1) {
+    my $msg = $queue->recv();
+    $job = Load($msg);
+    last if !exists($job->{id});
+    push(@queue, $job);
+  }
+  return @queue;
 }
 
 sub worker {
