@@ -22,11 +22,10 @@ sub write_data {
   my ($self, $fh) = @_;
   my @fields = ();
   my $file_name;
-  my @json = ();
+  my %json = ();
   for my $job (@{$self->{jobs}}) {
     my ($summary, $details) = $job->metrics->data();
-    my $json_context = to_json({$job->id => $summary}, {utf8 => 1, pretty => 1, space_before => 0});
-    CORE::push @json, $json_context;
+    $json{$job->id} = $summary;
 
 		# Print on specific file
 		my $file_detail = $job->id. "-details.json";
@@ -35,8 +34,8 @@ sub write_data {
 		print $fc $json_details;
 		close ($fc);
 	}
-	my $line = to_json({$job->metadata => decode_json(\@json)}, {utf8 => 1, pretty => 1, space_before => 0});
-	print {$fh} "[$line]";
+	my $line = to_json(\%json, {utf8 => 1, pretty => 1, space_before => 0});
+	print {$fh} $line;
 }
 
 1;
