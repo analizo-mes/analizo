@@ -76,7 +76,7 @@ sub coordinate_workers {
 
   my $results_expected = enqueue_jobs($batch, $queue);
   
-  collect_results($results_expected, $output, $results);
+  collect_results($results_expected, $output, $results, $self);
 }
 
 sub enqueue_jobs {
@@ -92,7 +92,7 @@ sub enqueue_jobs {
 }
 
 sub collect_results {
-  my ($results_expected, $output, $results) = @_;
+  my ($results_expected, $output, $results, $self) = @_;
   my $results_received = 0;
 
   while ($results_received < $results_expected) {
