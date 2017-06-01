@@ -21,7 +21,6 @@ sub report {
 sub write_data {
   my ($self, $fh) = @_;
   my @fields = ();
-  my $file_name;
   my %json = ();
   for my $job (@{$self->{jobs}}) {
     my ($summary, $details) = $job->metrics->data();
