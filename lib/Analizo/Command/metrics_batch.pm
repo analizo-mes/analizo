@@ -45,6 +45,7 @@ sub output_driver {
   my %available_outputs = (
     json  => 'Analizo::Output::JSON',
     csv => 'Analizo::Output::CSV',
+    yml => 'Analizo::Output::YAML',
   );
   $available_outputs{$format};
 }
