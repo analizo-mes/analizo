@@ -31,29 +31,38 @@ sub _socket_spec {
 
 sub start_workers {
   my ($self) = @_;
+
   $self->{workers} = [];
-  my $n = $self->parallelism();
-  my $ppid = $$;
-  for my $i (1..$n) {
-    my $pid = fork();
-    if ($pid) {
-      # on parent
-      push(@{$self->{workers}}, $pid);
-    } else {
-      # on child
-      $0 = '[analizo worker]';
-      worker($ppid);
+  my $number_of_workers = $self->parallelism();
+  my $parent_pid = $$;
+
+  for my $i (1..$number_of_workers) {
+    my $worker_pid = create_process($self, '[analizo worker]');
+    if(!$worker_pid) {
+      worker($parent_pid);
       exit();
     }
   }
-  my $distributor_pid = fork();
-  if ($distributor_pid) {
-    push(@{$self->{workers}}, $distributor_pid);
-  } else {
-    $0 = '[analizo queue]';
-    distributor($ppid, $n);
+
+  my $distributor_pid = create_process($self, '[analizo queue]');
+  if(!$distributor_pid) {
+    distributor($parent_pid, $number_of_workers);
     exit();
   }
+}
+
+sub create_process {
+  my ($self, $message) = @_;
+
+  my $pid = fork();
+  if ($pid) {
+    # on parent
+    push(@{$self->{workers}}, $pid);
+  } else {
+    # on child
+    $0 = $message;
+  }
+  return $pid;
 }
 
 sub wait_for_workers {
