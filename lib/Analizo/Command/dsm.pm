@@ -74,13 +74,25 @@ sub check_if_output_format_is_valid {
 sub execute {
   my ($self, $opt, $args) = @_;
   my $extractor = Analizo::Extractor->load($opt->extractor);
+  exclude_extractor($opt, $extractor);
+  my $model = $extractor->model;
+  $extractor->process(@$args);
+  my $graph = $model->graph();
+  my $graph_writer = call_graph_writer($opt, $args);
+  my $output = $opt->output || sprintf("dsm.%s", $opt->format);
+  $graph_writer->write_graph($graph, $output);
+}
+
+sub exclude_extractor {
+  my ($opt, $extractor) = @_;
   if ($opt->exclude) {
     my @excluded_directories = split(':', $opt->exclude);
     $extractor->exclude(@excluded_directories);
   }
-  my $model = $extractor->model;
-  $extractor->process(@$args);
-  my $graph = $model->graph();
+}
+
+sub call_graph_writer {
+  my ($opt, $args) = @_;
   my $graph_writer = undef;
   if ($opt->format eq 'png') {
     $graph_writer = Graph::Writer::DSM->new();
@@ -91,8 +103,7 @@ sub execute {
       title => 'Design Structure matrix for ' . $name
     );
   }
-  my $output = $opt->output || sprintf("dsm.%s", $opt->format);
-  $graph_writer->write_graph($graph, $output);
+  return $graph_writer; 
 }
 
 =head1 DESCRIPTION

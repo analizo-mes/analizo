@@ -27,7 +27,7 @@ sub execute {
   my ($self, $opt, $args) = @_;
   my $command_name = $args->[0];
   show_version($self);
-  show_command_manpage($self, $command_manpage);
+  show_command_manpage($self, $command_name);
   show_analizo_manpage($self);
   show_usage($self);
   $self->SUPER::execute($opt, $args);
