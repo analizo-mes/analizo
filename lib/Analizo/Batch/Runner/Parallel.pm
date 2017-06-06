@@ -36,6 +36,13 @@ sub start_workers {
   my $number_of_workers = $self->parallelism();
   my $parent_pid = $$;
 
+  create_workers($self, $parent_pid, $number_of_workers);
+
+  create_distributor($self, $parent_pid, $number_of_workers);
+}
+
+sub create_workers {
+  my ($self, $parent_pid, $number_of_workers) = @_;
   for my $i (1..$number_of_workers) {
     my $worker_pid = create_process($self, '[analizo worker]');
     if(!$worker_pid) {
@@ -43,7 +50,10 @@ sub start_workers {
       exit();
     }
   }
+}
 
+sub create_distributor {
+  my ($self, $parent_pid, $number_of_workers) = @_;
   my $distributor_pid = create_process($self, '[analizo queue]');
   if(!$distributor_pid) {
     distributor($parent_pid, $number_of_workers);
@@ -188,6 +198,7 @@ sub process_jobs {
 sub worker {
   my ($parent_pid) = @_;
   my $context = ZMQ::FFI->new();
+
   my $source = $context->socket(ZMQ_REQ);
   $source->connect(_socket_spec('job_source', $parent_pid));
 
