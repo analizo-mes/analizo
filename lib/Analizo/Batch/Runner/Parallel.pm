@@ -151,24 +151,26 @@ sub load_jobs {
 
 sub process_jobs { 
   my ($source, $results) = @_; 
-  my $run = 1;
   my $last_job = undef;
+  my $is_job_valid = undef;
 
-  while ($run) {
+  do{
+
     $source->send('');
     my $msg = $source->recv();
     my $job = Load($msg);
-    if (exists($job->{id})) {
+
+    $is_job_valid = exists($job->{id});
+
+    if($is_job_valid){
       $last_job = $job;
       $job->parallel_prepare();
       $job->execute();
       $results->send(Dump($job));
-    } else {
-      # a job without an id means that there are no more jobs to process, we
-      # should exit.
-      $run = 0;
     }
-  }
+
+  } while($is_job_valid);
+
   if ($last_job) {
     $last_job->parallel_cleanup();
   }
