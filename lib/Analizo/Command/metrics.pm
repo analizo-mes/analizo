@@ -27,7 +27,7 @@ sub opt_spec {
     [ 'list|l',       'displays metric list' ],
     [ 'extractor=s',  'wich extractor method use to analise source code' ],
     [ 'globalonly|global-only|g', 'only output global (project-wide) metrics' ],
-    [ 'output|o=s',   'output file name' ],
+    [ 'output|o=s',   'output file name' , {default => 'metrics'}],
     [ 'language=s',   'process only filenames matching known extensions for the <lang>> programming' ],
     [ 'exclude|x=s',  'exclude <dirs> (a colon-separated list of directories) from the analysis' ],
     [ 'includedirs|I=s',  'include <dirs> (a colon-separated list of directories) with C/C++ header files' ],
@@ -116,17 +116,10 @@ sub execute {
     $job->libs('.');
   }
   $job->execute();
-  my $metrics = $job->metrics;
   my $output = Analizo::Output->load_driver($self->output_driver($opt->format));
-  if ($opt->output) {
-    open STDOUT, '>', $opt->output or die "$!\n";
-  }
-  if ($opt->globalonly) {
-    print $output->report($metrics->global_metrics->report);
-  }
-  else {
-    print $output->report($metrics->data());
-  }
+  $output->file($opt->output. ".". $opt->format);
+  $output->push($job);
+  $output->flush();
   close STDOUT;
 }
 

@@ -9,14 +9,8 @@ sub push {
     push @{$self->{jobs}}, $job;
 }
 
-sub report {
-  my ($self, @output) = @_;
-  return Dump(@output);
-}
-
 sub write_data {
   my ($self, $fh) = @_;
-  my @fields = ();
   my $yml = {};
   for my $job (@{$self->{jobs}}) {
     my ($summary, $details) = $job->metrics->data();

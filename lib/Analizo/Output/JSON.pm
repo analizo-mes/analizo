@@ -9,18 +9,12 @@ sub push {
     push @{$self->{jobs}}, $job;
 }
 
-sub report {
-  my ($self, @output) = @_;
-  return to_json((\@output), {utf8 => 1, pretty => 1, space_before => 0});
-}
-
 # This method encode the received data used in metrics-batch in json,
 # same as write_data in csv, but the json doesn`t need to write the details of
 # which folder it`s analysing at the folder directory.
 
 sub write_data {
   my ($self, $fh) = @_;
-  my @fields = ();
   my %json = ();
   for my $job (@{$self->{jobs}}) {
     my ($summary, $details) = $job->metrics->data();
