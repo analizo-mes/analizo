@@ -44,26 +44,7 @@ sub validate {
 
 sub execute {
   my ($self, $opt, $args) = @_;
-  my $matrix = Analizo::EvolutionMatrix->new({
-    cell_width  => $opt->width,
-    cell_height => $opt->height,
-    name        => $opt->name,
-  });
-  foreach my $yml (@$args) {
-    (my $version = $yml) =~ s/^.*-(.*)\.yml$/$1/;
-    my $stream = YAML::Tiny->read($yml)
-      or die YAML::Tiny->errstr;
-    print STDERR "I: Processing $yml ...\n";
-    if (@{ $stream } > 0) {
-      foreach my $doc (@{ $stream }) {
-        if ($doc->{_module}) {
-          $matrix->put($doc->{_module}, $version, $doc);
-        }
-      }
-    } else {
-      print STDERR "W: $yml seems to be empty\n";
-    }
-  }
+  my $matrix = process_yml($opt, $args);
   if ($matrix->is_empty) {
     print STDERR "E: no data found! Do the input files contain module data?\n";
   }
@@ -74,6 +55,36 @@ sub execute {
     my $template = Mojo::Template->new;
     print STDOUT $template->render_file('templates/analizo-evolution-matrix.html.ep', $matrix);
     close STDOUT;
+  }
+}
+
+sub process_yml {
+  my ($opt, $args) = @_;
+  my $matrix = Analizo::EvolutionMatrix->new({
+    cell_width  => $opt->width,
+    cell_height => $opt->height,
+    name        => $opt->name,
+  });
+  foreach my $yml (@$args) {
+    (my $version = $yml) =~ s/^.*-(.*)\.yml$/$1/;
+    my $stream = YAML::Tiny->read($yml)
+      or die YAML::Tiny->errstr;
+    check_if_yml_is_empty($stream, $matrix, $version, $yml);
+  }
+  return $matrix;
+}
+
+sub check_if_yml_is_empty {
+  my ($stream, $matrix, $version, $yml) = @_;
+  print STDERR "I: Processing $yml ...\n";
+  if (@{ $stream } > 0) {
+    foreach my $doc (@{ $stream }) {
+      if ($doc->{_module}) {
+        $matrix->put($doc->{_module}, $version, $doc);
+      }
+    }
+  } else {
+    print STDERR "W: $yml seems to be empty\n";
   }
 }
 
