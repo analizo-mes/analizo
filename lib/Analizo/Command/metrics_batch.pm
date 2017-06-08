@@ -61,12 +61,7 @@ sub execute {
     $runner = new Analizo::Batch::Runner::Sequential;
   }
   unless ($opt->quiet) {
-    $runner->progress(
-      sub {
-        my ($job, $done, $total) = @_;
-        printf("I: Processed %s.\n", $job->id);
-      }
-    );
+    _print_progress($runner);
   }
 
   my $batch = new Analizo::Batch::Directories(@$args);
@@ -75,6 +70,15 @@ sub execute {
   $runner->run($batch, $output);
 }
 
+sub _print_progress {
+    my ($runner, $args) = @_;
+    $runner->progress(
+      sub {
+        my ($job, $done, $total) = @_;
+        printf("I: Processed %s.\n", $job->id);
+      }
+    );
+}
 =head1 DESCRIPTION
 
 Processes several source code directories in batch running B<analizo metrics>
