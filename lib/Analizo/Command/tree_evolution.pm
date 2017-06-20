@@ -1,6 +1,7 @@
 package Analizo::Command::tree_evolution;
 use Analizo -command;
 use base qw(Analizo::Command);
+use feature state;
 use strict;
 use warnings;
 use Digest::SHA qw(sha1_hex);
@@ -31,26 +32,54 @@ sub validate {}
 
 sub execute {
   my ($self, $opt, $args) = @_;
+
   my $filter = new Analizo::LanguageFilter($opt->language);
-  local $ENV{PATH} = '/usr/local/bin:/usr/bin:/bin';
+  my @commits = _get_commits();
+
+  for my $commit (@commits) {
+    my @tree = _get_commits_tree($commit, $filter);
+    next unless (@tree);
+    _print_tree($commit, @tree);
+  }
+}
+
+sub _set_binaries_path {
+  my ($path) = @_;
+  local $ENV{PATH} = $path;
+}
+
+sub _get_commits {
+  _set_binaries_path('/usr/local/bin:/usr/bin:/bin');
   open COMMITS, "git log --reverse --format=%H|";
   my @commits = <COMMITS>;
   chomp @commits;
   close COMMITS;
-  my %trees = ();
-  for my $commit (@commits) {
-    my @tree = `git ls-tree -r --name-only $commit`;
-    chomp(@tree);
-    my %dirs = map { dirname($_) => 1 } (grep { $filter->matches($_) } @tree);
-    @tree = sort(grep { $_ ne '.' } keys(%dirs));
-    next unless (@tree);
-    my $tree = join("\n", @tree);
-    my $sha1 = sha1_hex($tree);
-    if (!exists($trees{$sha1})) {
-      print "# $commit\n";
-      print $tree, "\n";
-      $trees{$sha1} = 1;
-    }
+
+  return @commits;
+}
+
+sub _get_commits_tree {
+  my ($commit, $filter) = @_;
+
+  _set_binaries_path('/usr/local/bin:/usr/bin:/bin');
+  my @tree = `git ls-tree -r --name-only $commit`;
+  chomp(@tree);
+  my %dirs = map { dirname($_) => 1 } (grep { $filter->matches($_) } @tree);
+  @tree = sort(grep { $_ ne '.' } keys(%dirs));
+
+  return @tree;
+}
+
+sub _print_tree{
+  my ($commit, @tree) = @_;
+  state %trees;
+  my $tree = join("\n", @tree);
+  my $sha1 = sha1_hex($tree);
+
+  if (!exists($trees{$sha1})) {
+    print "# $commit\n";
+    print $tree, "\n";
+    $trees{$sha1} = 1;
   }
 }
 
