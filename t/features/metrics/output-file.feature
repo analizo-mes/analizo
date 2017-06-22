@@ -2,15 +2,15 @@ Feature: output file for metrics tool
 
   Scenario: passing output file in the command line
     Given I am in .
-    When I run "analizo metrics --output output.yml.tmp t/samples/sample_basic/"
-    Then the contents of "output.yml.tmp" must match "module2"
+    When I run "analizo metrics --output output t/samples/sample_basic/"
+    Then the contents of "output.yml" must match "module2"
     And the exit status must be 0
 
   Scenario: passing output file without permission to write
     Given I am in .
-    When I run "touch output.tmp"
-    And I run "chmod 000 output.tmp"
-    And I run "analizo metrics --output output.tmp t/samples/sample_basic/"
+    When I run "touch output2.yml"
+    And I run "chmod 000 output2.yml"
+    And I run "analizo metrics --output output2 t/samples/sample_basic/"
     Then the exit status must not be 0
     And analizo must emit a warning matching "Permission denied"
 

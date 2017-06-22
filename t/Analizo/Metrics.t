@@ -37,33 +37,18 @@ sub sample_modules_for_report {
   $model->add_call('f2', 'f1b');
 }
 
-sub report : Tests {
-  sample_modules_for_report();
-  $model->declare_total_eloc(38);
-
-  my $output = Analizo::Output::YAML->report($metrics->data);
-
-  $output =~ m/total_modules: ([0-9]+)/;
-  my $modules = $1;
-  is($modules, 2, 'reporting number of classes in YAML stream');
-  ok($output =~ /_module: mod1/, 'reporting module 1');
-  ok($output =~ /_module: mod2/, 'reporting module 2');
-  ok($output =~ /total_eloc: 38/, 'reporting total eloc');
-}
-
 sub report_global_only : Tests {
   sample_modules_for_report();
 
   my @global_metrics = $metrics->data;
-  my $output = Analizo::Output::YAML->report(@global_metrics[0]);
+  my $output = Analizo::Output::YAML->push(@global_metrics[0]);
 
-  ok($output =~ /total_modules: 2/, 'reporting number of classes (it is global)');
   ok($output !~ /_module: mod1/, 'not reporting module 1 details');
   ok($output !~ /_module: mod2/, 'not reporting module 2 details');
 }
 
 sub report_without_modules_at_all : Tests {
-  my $output = Analizo::Output::YAML->report($metrics->data);
+  my $output = Analizo::Output::YAML->push($metrics->data);
 }
 
 sub list_of_metrics : Tests {
