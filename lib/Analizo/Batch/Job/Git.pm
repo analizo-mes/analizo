@@ -96,26 +96,37 @@ sub previous_relevant {
 
 sub _calculate_previous_relevant {
   my ($self) = @_;
+  my $previous_relevant = undef;
   my $finder = $self->{finder};
-  if ($self->is_first_commit) {
-    return undef;
-  } elsif ($self->is_merge) {
-    my @parents = map { &$finder($_) } @{$self->data->{parents}};
-    my %grandparents = map { $_ => 1 } (grep { $_} (map { $_->previous_relevant } @parents));
-    my @grandparents = keys(%grandparents);
-    if (scalar(@grandparents) == 1) {
-      return $grandparents[0];
-    } else {
-      return undef;
+  if (!$self->is_first_commit) {
+    if ($self->is_merge) {
+      $previous_relevant = _calculate_merge_previous_relevant($self, $finder);
     }
-  } else {
-    my $parent = &$finder($self->data->{parents}->[0]);
-    if ($parent->relevant) {
-      return $parent->id;
-    } else {
-      return $parent->previous_relevant();
+    else{
+      my $parent = &$finder($self->data->{parents}->[0]);
+      if ($parent->relevant) {
+        $previous_relevant = $parent->id;
+      } else {
+        $previous_relevant = $parent->previous_relevant();
+      }
     }
   }
+
+  return $previous_relevant;
+}
+
+sub _calculate_merge_previous_relevant {
+  my ($self, $finder) = @_;
+  my $merge_previous_relevant = undef;
+
+  my @parents = map { &$finder($_) } @{$self->data->{parents}};
+  my %grandparents = map { $_ => 1 } (grep { $_} (map { $_->previous_relevant } @parents));
+  my @grandparents = keys(%grandparents);
+  if (scalar(@grandparents) == 1) {
+    $merge_previous_relevant = $grandparents[0];
+  } 
+
+  return $merge_previous_relevant;
 }
 
 sub is_first_commit {
