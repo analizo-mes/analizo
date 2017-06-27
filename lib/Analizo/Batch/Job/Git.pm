@@ -103,13 +103,21 @@ sub _calculate_previous_relevant {
       $previous_relevant = _calculate_merge_previous_relevant($self, $finder);
     }
     else{
-      my $parent = &$finder($self->data->{parents}->[0]);
-      if ($parent->relevant) {
-        $previous_relevant = $parent->id;
-      } else {
-        $previous_relevant = $parent->previous_relevant();
-      }
+      $previous_relevant = _calculate_default_previous_relevant($self, $finder);
     }
+  }
+
+  return $previous_relevant;
+}
+
+sub _calculate_default_previous_relevant {
+  my ($self, $finder) = @_;
+  my $previous_relevant = undef;
+  my $parent = &$finder($self->data->{parents}->[0]);
+  if ($parent->relevant) {
+    $previous_relevant = $parent->id;
+  } else {
+    $previous_relevant = $parent->previous_relevant();
   }
 
   return $previous_relevant;
