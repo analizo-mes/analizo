@@ -69,7 +69,7 @@ sub _write_details {
   my $csv_filename = $id. "-details.csv";
   open my $csv_handler, '>'.$csv_filename  || die "Cannot open ".$id."-details.csv\n".$!;
 
-  print $csv_handler "filename".",module";
+  _concat_filename_module($csv_handler);
 
   foreach (@fields){
     print $csv_handler ",".$_;
@@ -95,6 +95,10 @@ sub _write_details {
 
   print $csv_handler @array_of_values;
   close $csv_handler;
+}
+sub _concat_filename_module($){
+  my ($csv_handler, $args) = @_;
+  print $csv_handler "filename".",module";
 }
 
 1;
