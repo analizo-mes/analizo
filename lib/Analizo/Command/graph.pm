@@ -31,21 +31,35 @@ sub opt_spec {
   );
 }
 
-sub validate {
-  my ($self, $opt, $args) = @_;
+sub _validate_input_files {
+  my ($self, $args) = @_;
   $self->usage_error("No input files!") unless @$args;
+}
+
+sub _validate_output {
+  my ($self, $opt) = @_;
+  if ($opt->output && ! -w dirname($opt->output)) {
+    $self->usage_error("No such file or directory");
+  }
+}
+
+sub _validate_readable_files {
+  my ($self, $args) = @_;
   my @unreadable = grep { ! -r $_ || ! -e $_ } @$args;
   if (@unreadable) {
     foreach my $file (@unreadable) {
       $self->usage_error("$file is not readable");
     }
   }
-  if ($opt->output && ! -w dirname($opt->output)) {
-    $self->usage_error("No such file or directory");
-  }
 }
 
-sub execute {
+sub validate {
+  my ($self, $opt, $args) = @_;
+  $self->_validate_input_files($args);
+  $self->_validate_readable_files($args);
+  $self->_validate_output($opt);
+}
+sub _get_graph {
   my ($self, $opt, $args) = @_;
   my $extractor = Analizo::Extractor->load($opt->extractor);
   $extractor->process(@$args);
@@ -54,15 +68,32 @@ sub execute {
     group_by_module => $opt->modules,
     omit => \@omitted,
   );
+  return $graph;
+}
+
+sub _get_graph_writer {
+  my ($self, $opt) = @_;
+  my $graph_writer = Graph::Writer::Dot->new(
+    cluster => ($opt->cluster ? 'group' : undef),
+  );
+  return $graph_writer;
+}
+
+sub _write_on_output {
+  my ($self, $opt, $graph) = @_;
   if ($opt->output) {
     open STDOUT, '>', $opt->output or die "$!";
   }
   my $stdout = \*STDOUT;
-  my $graph_writer = Graph::Writer::Dot->new(
-    cluster => ($opt->cluster ? 'group' : undef),
-  );
+  my $graph_writer = $self->_get_graph_writer($opt);
   $graph_writer->write_graph($graph, $stdout);
   close STDOUT;
+}
+
+sub execute {
+  my ($self, $opt, $args) = @_;
+  my $graph = $self->_get_graph($opt, $args);
+  $self->_write_on_output($opt, $graph);
 }
 
 =head1 DESCRIPTION
