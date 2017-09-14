@@ -31,13 +31,9 @@ public abstract class AbstractDao {
 
     /**
      * Returns the string quoted (with simple quotes).
-
      * A simple quote is also added before any simple quote present in the original string.
-
      * This method should be used for preventing SQL injection.
      *
-
-
      * Example: "Joana d'Arc" becomes "'Joana d''Arc'"
      */
     protected String quote(Object object) {
