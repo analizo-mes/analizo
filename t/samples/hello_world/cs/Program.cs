@@ -6,8 +6,8 @@ class Program {
 		HelloWorld hello2 = new HelloWorld();
 
 		hello1.say();
-	    hello2.say();
-	    hello1.destroy();
-	    hello2.destroy();
+	  hello2.say();
+	  hello1.destroy();
+	  hello2.destroy();
 	}
 }
