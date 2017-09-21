@@ -2,7 +2,7 @@ Feature: output file for graph tool
 
   Scenario: passing output file in the command line
     Given I am in .
-    When I run "analizo graph --output output.dot.tmp t/samples/sample_basic/"
+    When I run "analizo graph --output output.dot.tmp t/samples/sample_basic/c"
     Then the contents of "output.dot.tmp" must match "module1"
     And the exit status must be 0
 
