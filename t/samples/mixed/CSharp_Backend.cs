@@ -1,6 +1,6 @@
 using System;
 
-class Backend {
+class CSharp_Backend {
 	public void ProcessRequest() {
 		// Anything... 
 	}

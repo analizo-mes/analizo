@@ -15,3 +15,8 @@ Feature: output only global metrics
     When I run "analizo metrics -g ."
     Then the output must match "cbo_mean:"
     And the output must not match "_module:"
+
+  Scenario: another version
+    When I run "analizo metrics --globalonly ."
+    Then the output must match "anpm_mean:"
+    And the output must not match "_module:"

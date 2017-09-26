@@ -7,7 +7,7 @@ use Carp;
 use base qw(Analizo::FilenameFilter);
 
 our $FILTERS = {
-  cs        => 'cs',
+  csharp    => 'cs',
   c         => 'c|h',
   cpp       => 'cpp|cxx|cc|h|hh|hpp',
   java      => 'java',
