@@ -22,11 +22,11 @@ Feature: change cost degree
       | java     |
 
   Scenario: "Hieracchical Graph" project
-    Given I am in t/samples/hierarchical_graph
+    Given I am in t/samples/hierarchical_graph/c
     When I run "analizo metrics ."
     Then analizo must report that the project has change_cost = 0.42
 
   Scenario: "Cyclical Graph" project
-    Given I am in t/samples/cyclical_graph
+    Given I am in t/samples/cyclical_graph/c
     When I run "analizo metrics ."
     Then analizo must report that the project has change_cost = 0.5
