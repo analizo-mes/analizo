@@ -11,15 +11,17 @@ Feature: total number of methods per abstract class
       | language |
       | cpp      |
       | java     |
+      | cs       |
 
   Scenario: "Animals" project
     Given I am in t/samples/animals/<language>
     When I run "analizo metrics ."
-    Then analizo must report that the project has total_methods_per_abstract_class = 1
+    Then analizo must report that the project has total_methods_per_abstract_class = <value>
     Examples:
-      | language |
-      | cpp      |
-      | java     |
+      | language | value |
+      | cpp      | 1     |
+      | java     | 1     |
+      | cs       | 1.5   |
 
   Scenario: "Polygons" project
     Given I am in t/samples/polygons/<language>
@@ -27,6 +29,7 @@ Feature: total number of methods per abstract class
     Then analizo must report that the project has total_methods_per_abstract_class = <value>
     Examples:
       | language | value |
-      | cpp      |  2.5  |
-      | java     |   2   |
+      | cpp      | 2.5   |
+      | java     | 2     |
+      | cs       | 2     |
 

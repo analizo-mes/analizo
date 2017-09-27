@@ -27,3 +27,10 @@ Feature: mapping modules to filenames
     When I run "analizo metrics ."
     Then analizo must report that file hello_world.c declares module hello_world
     Then analizo must report that file hello_world.h declares module hello_world
+
+  Scenario: C#
+    Given I am in t/samples/polygons/cs
+    When I run "analizo metrics ."
+    Then analizo must report that file Polygon.cs declares module Polygon
+    And analizo must report that file Rect.cs declares module Rect
+    And analizo must report that file Triangle.cs declares module Triangle
