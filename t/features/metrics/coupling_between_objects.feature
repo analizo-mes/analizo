@@ -12,6 +12,7 @@ Feature: coupling between objects
       | c        | main   |
       | cpp      | main   |
       | java     | Main   |
+      | cs       | Program|  
 
   Scenario: "Animals" project
     Given I am in t/samples/animals/<language>
@@ -21,5 +22,7 @@ Feature: coupling between objects
       | language | module | value |
       | cpp      | main   | 1     |
       | java     | Main   | 1     |
+      | cs       | Program| 2     |
       | cpp      | mammal | 0     |
       | java     | Mammal | 0     |
+      | cs       | Mammal | 0     |
