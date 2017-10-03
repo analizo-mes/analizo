@@ -15,6 +15,9 @@ our $exit_status;
 our $stdout;
 our $stderr;
 
+use Env qw(@PATH $PWD);
+push @PATH, "$PWD/bin";
+
 When qr/^I run "([^\"]*)"$/, func($c) {
   my $command = $1;
   $exit_status = system "($command) >tmp.out 2>tmp.err";
@@ -164,4 +167,10 @@ When qr/^I explode (.+)$/, func($c) {
 Then qr/^the output lines must match "([^\"]*)"$/, func($c) {
   my $pattern = $1;
   like($stdout, qr/$pattern/);
+};
+
+Then qr/^the number of lines on metrics mean report must be "([^\"]*)"$/, func($c) {
+  my $pattern = $1;
+  my $number_of_lines = $stdout =~ tr/\n//; 
+  is($number_of_lines + 0 , $pattern + 0);
 };

@@ -21,14 +21,24 @@ first. Check the "Installing dependencies on non-Debian systems" below.
 
 ## Running the test suite
 
-Just run `rake` in the root of the sources:
+Just run `dzil test` in the root of the sources:
 
-```console
-rake
+```
+  $ dzil test
 ```
 
 See "Installing Dependencies" above for a guide to install all the software
 that's needed to run Analizo tests.
+
+## Building / releasing
+
+```
+  $ dzil build
+```
+
+```
+  $ dzil release
+```
 
 ## Style and Good practices
 
@@ -72,7 +82,7 @@ if (...)
 Always "use strict" in the top of new modules.
 
 Don't bother changing the AUTHORS file. It's automatically generated as part of
-the release process. See the Rakefile for more information.
+the release process. See the dist.ini for more information.
 
 # Sending patches
 
@@ -129,30 +139,4 @@ See https://github.com/analizo/doxyparse/wiki
 
 3) Install sloccount - http://www.dwheeler.com/sloccount/sloccount.html
 
-4) Install Ruby packages required
-
-* Make sure you have Rubygems installed. If you have a recent enough version of
-  Ruby, you should already have Rubygems.
-
-```console
-gem install rake rspec cucumber
-```
-
-5) Install Rake - http://rake.rubyforge.org/
-
-* your operating system probably already has a pre-built package for it
-* otherwise follow the installation instructions on the website
-
-6) Install rubygems - http://docs.rubygems.org/
-
-  * your operating system will probably already have a pre-build package for it.
-
-If you have Ruby installed, you may already have rubygems installed as well.
-
-7) Install cucumber and rspec using rubygems
-
-```console
-gem install cucumber rspec
-```
-
-8) Make sure you also have `man` and `sqlite3` installed.
+4) Make sure you also have `man` and `sqlite3` installed.

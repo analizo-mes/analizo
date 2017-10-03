@@ -10,7 +10,7 @@ sudo rm -rf /etc/apt/sources.list.d/analizo.list
 sudo apt-get update
 
 # rest of non-perl deps
-sudo apt-get install git sloccount sqlite3 man pkg-config uuid-dev rake ruby-rspec libmagic-dev
+sudo apt-get install git sloccount sqlite3 man pkg-config uuid-dev libmagic-dev
 
 # libraries needed to build ZeroMQ. Note libzmq3-dev comes from the zeromq PPA
 # and not from official repos - you should not use that package name anywhere else
