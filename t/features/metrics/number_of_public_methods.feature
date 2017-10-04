@@ -12,9 +12,13 @@ Feature: number of public methods metric
       | polygons | cpp      |  CPolygon  | 2    |
       | polygons | cpp      |  CTetragon | 1    |
       | polygons | java     |  Polygon   | 3    |
+      | polygons | cs       |  Polygon   | 2    |
       | animals  | cpp      |  Animal    | 1    |
       | animals  | cpp      |  Cat       | 2    |
       | animals  | cpp      |  Dog       | 2    |
       | animals  | java     |  Animal    | 1    |
       | animals  | java     |  Cat       | 2    |
       | animals  | java     |  Dog       | 2    |
+      | animals  | cs       |  Animal    | 1    |
+      | animals  | cs       |  Cat       | 3    |
+      | animals  | cs       |  Dog       | 3    |

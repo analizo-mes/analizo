@@ -11,6 +11,7 @@ Feature: number of abstract classes
       | language |
       | cpp      |
       | java     |
+      | cs       | 
 
   Scenario: "Animals" project
     Given I am in t/samples/animals/<language>
@@ -20,4 +21,5 @@ Feature: number of abstract classes
       | language |
       | cpp      |
       | java     |
+      | cs       |
 
