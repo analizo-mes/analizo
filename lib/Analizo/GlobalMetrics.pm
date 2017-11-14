@@ -112,6 +112,17 @@ sub report {
 
 sub report_file {
   my ($self) = @_;
+ 
+  $self->_include_metrics_from_calculators;
+  $self->_add_statistics(0);
+  $self->_add_total_coupling_factor;
+
+  return \%{$self->metric_report};
+}
+
+sub report_mean {
+  my ($self) = @_;
+  my $only_mean = 1;
 
   $self->_include_metrics_from_calculators;
   $self->_add_statistics_according_to_file;
@@ -119,6 +130,7 @@ sub report_file {
 
   return \%{$self->metric_report};
 }
+
 
 sub _include_metrics_from_calculators {
   my ($self) = @_;

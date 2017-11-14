@@ -74,6 +74,14 @@ sub data_file {
   return ($self->global_metrics->report_file, $self->module_data());
 }
 
+sub data_mean {
+  my ($self ) = @_;
+  
+  $self->_collect_and_combine_module_metrics;
+  return ($self->global_metrics->report_mean, $self->module_data());
+}
+
+
 sub _collect_and_combine_module_metrics {
   my ($self) = @_;
   if (defined $self->{_collect_and_combine_module_metrics}) {
