@@ -18,7 +18,7 @@ Feature: Analizo statistics metrics flag
 	    Then the output must not match "_kurtosis,"
 	    Then the output must not match "_skewness,"
 
-	Scenario: Run analizo histpry with --mode flag
+	Scenario: Run analizo history with --mode flag
 		When I explode t/samples/evolution.tar.gz
 	    And I run "analizo metrics-history --mode -o metrics.csv . && cat metrics.csv"
 		Then the output must match "_mode,"
@@ -36,7 +36,7 @@ Feature: Analizo statistics metrics flag
 	    Then the output must not match "_kurtosis,"
 	    Then the output must not match "_skewness,"
 		
-	Scenario: Run analizo histpry with --standard flag
+	Scenario: Run analizo history with --standard flag
 		When I explode t/samples/evolution.tar.gz
 	    And I run "analizo metrics-history --standard -o metrics.csv . && cat metrics.csv"
 		Then the output must match "_standard_deviation,"
@@ -54,7 +54,7 @@ Feature: Analizo statistics metrics flag
 	    Then the output must not match "_kurtosis,"
 	    Then the output must not match "_skewness,"
 
-	Scenario: Run analizo histpry with --sum flag
+	Scenario: Run analizo history with --sum flag
 		When I explode t/samples/evolution.tar.gz
 	    And I run "analizo metrics-history --sum -o metrics.csv . && cat metrics.csv"
 		Then the output must match "_sum,"
@@ -72,7 +72,7 @@ Feature: Analizo statistics metrics flag
 	    Then the output must not match "_kurtosis,"
 	    Then the output must not match "_skewness,"
 
-	Scenario: Run analizo histpry with --variance flag
+	Scenario: Run analizo history with --variance flag
 		When I explode t/samples/evolution.tar.gz
 	    And I run "analizo metrics-history --variance -o metrics.csv . && cat metrics.csv"
 		Then the output must match "_variance,"
@@ -90,7 +90,7 @@ Feature: Analizo statistics metrics flag
 	    Then the output must not match "_kurtosis,"
 	    Then the output must not match "_skewness,"
 
-	Scenario: Run analizo histpry with --min flag
+	Scenario: Run analizo history with --min flag
 		When I explode t/samples/evolution.tar.gz
 	    And I run "analizo metrics-history --min -o metrics.csv . && cat metrics.csv"
 		Then the output must match "_quantile_min,"
@@ -108,7 +108,7 @@ Feature: Analizo statistics metrics flag
 	    Then the output must not match "_kurtosis,"
 	    Then the output must not match "_skewness,"
 
-	Scenario: Run analizo histpry with --lower flag
+	Scenario: Run analizo history with --lower flag
 		When I explode t/samples/evolution.tar.gz
 	    And I run "analizo metrics-history --lower -o metrics.csv . && cat metrics.csv"
 		Then the output must match "_quantile_lower,"
@@ -126,7 +126,7 @@ Feature: Analizo statistics metrics flag
 	    Then the output must not match "_kurtosis,"
 	    Then the output must not match "_skewness,"
 		
-	Scenario: Run analizo histpry with --median flag
+	Scenario: Run analizo history with --median flag
 		When I explode t/samples/evolution.tar.gz
 	    And I run "analizo metrics-history --median -o metrics.csv . && cat metrics.csv"
 		Then the output must match "_quantile_median,"
@@ -144,7 +144,7 @@ Feature: Analizo statistics metrics flag
 	    Then the output must not match "_kurtosis,"
 	    Then the output must not match "_skewness,"
 
-	Scenario: Run analizo histpry with --upper flag
+	Scenario: Run analizo history with --upper flag
 		When I explode t/samples/evolution.tar.gz
 	    And I run "analizo metrics-history --upper -o metrics.csv . && cat metrics.csv"
 		Then the output must match "_quantile_upper,"
@@ -162,7 +162,7 @@ Feature: Analizo statistics metrics flag
 	    Then the output must not match "_kurtosis,"
 	    Then the output must not match "_skewness,"
 
-	Scenario: Run analizo histpry with --ninety flag
+	Scenario: Run analizo history with --ninety flag
 		When I explode t/samples/evolution.tar.gz
 	    And I run "analizo metrics-history --ninety -o metrics.csv . && cat metrics.csv"
 		Then the output must match "_quantile_ninety,"
@@ -180,7 +180,7 @@ Feature: Analizo statistics metrics flag
 	    Then the output must not match "_kurtosis,"
 	    Then the output must not match "_skewness,"
 
-	Scenario: Run analizo histpry with --ninety_five flag
+	Scenario: Run analizo history with --ninety_five flag
 		When I explode t/samples/evolution.tar.gz
 	    And I run "analizo metrics-history --ninety_five -o metrics.csv . && cat metrics.csv"
 		Then the output must match "_quantile_ninety_five,"
@@ -198,7 +198,7 @@ Feature: Analizo statistics metrics flag
 	    Then the output must not match "_kurtosis,"
 	    Then the output must not match "_skewness,"
 
-	Scenario: Run analizo histpry with --max flag
+	Scenario: Run analizo history with --max flag
 		When I explode t/samples/evolution.tar.gz
 	    And I run "analizo metrics-history --max -o metrics.csv . && cat metrics.csv"
 		Then the output must match "_quantile_max,"
@@ -216,7 +216,7 @@ Feature: Analizo statistics metrics flag
 	    Then the output must not match "_kurtosis,"
 	    Then the output must not match "_skewness,"
 		
-	Scenario: Run analizo histpry with --kurtosis flag
+	Scenario: Run analizo history with --kurtosis flag
 		When I explode t/samples/evolution.tar.gz
 	    And I run "analizo metrics-history --kurtosis -o metrics.csv . && cat metrics.csv"
 		Then the output must match "_kurtosis,"
@@ -234,7 +234,7 @@ Feature: Analizo statistics metrics flag
 	    Then the output must not match "_standard_deviation,"
 	    Then the output must not match "_skewness,"
 
-	Scenario: Run analizo histpry with --skewness flag
+	Scenario: Run analizo history with --skewness flag
 		When I explode t/samples/evolution.tar.gz
 	    And I run "analizo metrics-history --skewness -o metrics.csv . && cat metrics.csv"
 		Then the output must match "_skewness,"
