@@ -8,9 +8,9 @@ sub new {
 }
 
 sub run($$$) {
-  my ($self, $batch, $output, @binary_statistics) = @_;
+  my ($self, $batch, $output) = @_;
   $output->initialize();
-  $self->actually_run($batch, $output, @binary_statistics);
+  $self->actually_run($batch, $output);
   $output->flush();
 }
 

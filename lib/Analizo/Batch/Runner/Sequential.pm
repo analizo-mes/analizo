@@ -6,10 +6,10 @@ use warnings;
 use base qw( Analizo::Batch::Runner );
 
 sub actually_run {
-  my ($self, $batch, $output, @binary_statistics) = @_;
+  my ($self, $batch, $output) = @_;
   my $i = 0;
   while (my $job = $batch->next()) {
-    $job->execute(@binary_statistics);
+    $job->execute();
     $output->push($job);
     $i++;
     $self->report_progress($job, $i, $batch->count);

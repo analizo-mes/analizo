@@ -11,32 +11,22 @@ Feature: change cost degree
       | language |
       | cpp      |
       | java     |
-      | csharp   |
 
   Scenario: "Animals" project
     Given I am in t/samples/animals/<language>
-    When I run "analizo metrics ."
-    Then analizo must report that the project has change_cost = <change_cost>
+    When I run "analizo metrics -a ."
+    Then analizo must report that the project has change_cost = 0.44
     Examples:
-      | language | change_cost |
-      | cpp      | 0.44        |
-      | java     | 0.44        |
-      | csharp   | 0.44        |
+      | language |
+      | cpp      |
+      | java     |
 
   Scenario: "Hieracchical Graph" project
-    Given I am in t/samples/hierarchical_graph/<language>
-    When I run "analizo metrics ."
-    Then analizo must report that the project has change_cost = <change_cost>
-    Examples:
-      | language | change_cost |
-      | c        | 0.42        |
-      | csharp   | 0.28        |
+    Given I am in t/samples/hierarchical_graph
+    When I run "analizo metrics -a ."
+    Then analizo must report that the project has change_cost = 0.42
 
   Scenario: "Cyclical Graph" project
-    Given I am in t/samples/cyclical_graph/<language>
-    When I run "analizo metrics ."
-    Then analizo must report that the project has change_cost = <change_cost>
-    Examples:
-      | language | change_cost |
-      | c        | 0.5         |
-      | csharp   | 0.36        |
+    Given I am in t/samples/cyclical_graph
+    When I run "analizo metrics -a ."
+    Then analizo must report that the project has change_cost = 0.5

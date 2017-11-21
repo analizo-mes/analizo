@@ -13,4 +13,3 @@ Feature: number of attributes metric
       | language | main_module |
       | cpp      | main        |
       | java     | Main        |
-      | csharp   | main        |
