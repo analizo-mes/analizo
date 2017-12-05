@@ -50,6 +50,7 @@ sub opt_spec {
     [ 'max',  'display only quantile max statistics'],
     [ 'kurtosis',  'display only kurtosis statistics'],
     [ 'skewness',  'display only skewness statistics'],
+    [ 'output_model|om=s', 'output YML file with information of analyzed path'],
   );
 }
 
@@ -94,7 +95,7 @@ sub execute {
   $job->execute();
   my $metrics = $job->metrics;
   if ($flags->has_output_flag($opt)) {
-    $execute_metrics->open_output_file($opt);;
+    $execute_metrics->open_output_file($opt);
   }
   if ($flags->has_global_only_flag($opt)) {
     $execute_metrics->print_only_global_metrics($metrics, @binary_statistics);
@@ -106,6 +107,10 @@ sub execute {
 		else{
       $execute_metrics->print_metrics_according_to_statistics($metrics, @binary_statistics);
 		}
+    if($flags->has_model_flag($opt)) {
+      $execute_metrics->print_model_output($opt, $job);
+    }
+
   }
   $execute_metrics->close_output_file();
 }
@@ -152,12 +157,19 @@ Don't output the details about modules: only output global (project-wide) metric
 Process only filenames matching known extensions for the <I<lang>> programming
 language. To see which languages are supported, pass B<--language list>.
 
-=item --exclude <dirs>, -x <dirs>
+=item --exclude <dirs>, -x <dirs> 
 
 Exclude <I<dirs>> (a colon-separated list of directories) from the analysis.
 This is useful, for example, when you want to focus on production code and
 exclude test code from the analysis. You could do that by passing something
 like pass B<--exclude test>.
+
+=item --output_model <dir>, --om <dir>
+
+Create an output file with the .yml extension. That file contains structured
+information about the code on the analyzed directory. The informations analyzed are:
+numbers of abstract_classes, members, inheritance, module_by_file, protection, modules, files, 
+calls, conditional_paths, lines, parameters, module_names and total_eloc.
 
 =back
 
